@@ -1,0 +1,31 @@
+<div ng-hide="stateHolder.name == 'gallery.detail' ">
+    <div class="center-align vertical-align" ng-if="!fetchPhotosBtnClicked">
+        <button ng-click="start()" class="waves-effect waves-light btn-large btn-margin">Let's Fetch some photos!</button>
+    </div>
+	<div class="btn-array" ng-if="fetchPhotosBtnClicked">
+       
+       <button ng-if="!sortBtnClicked" class="btn-floating btn-large waves-effect waves-light blue right" ng-click="sortBy('title')"><i class="material-icons" >mode_edit</i></button>
+
+       <button ng-if="sortBtnClicked" class="btn-floating btn-large waves-effect waves-light red right btn-margin" ng-click="sortBy('-title')"><i class="material-icons" >mode_edit</i></button>   
+
+   </div>
+    <div class="row" ng-if="fetchPhotosBtnClicked">
+        <div ng-repeat="img in images | orderBy: 'sortFactor' " ng-show="img.url">
+            <div class="col s4 m3">
+                <div class="card">
+                    <div class="card-image">
+                        <img ng-src="{{img.url}}">
+                        <span class="card-title">{{img.title}}</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Author : {{img.author}} </p>
+                    </div>
+                    <div class="card-action">
+                        <a ui-sref="gallery.detail({image_id : 1})" ui-sref-opts="{reload:true}">This is a link</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ui-view></div>
