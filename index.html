@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="photoApp">
+
+<head>
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body ng-controller="PhotoAppController">
+    <div class="center-align vertical-align" ng-if="!clicked">
+        <button ng-click="start()" class="waves-effect waves-light btn">Let's Fetch some photos!</button>
+    </div>
+    <div class="row" ng-if="clicked">
+        <div ng-repeat="img in images | orderBy: 'title' " ng-show="img.url">
+            <div class="col s4 m3">
+                <div class="card">
+                    <div class="card-image">
+                        <img ng-src="{{img.url}}">
+                        <span class="card-title">{{img.title}}</span>
+                    </div>
+                    <div class="card-content">
+                        <p>Author : {{img.author}} </p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#">This is a link</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
