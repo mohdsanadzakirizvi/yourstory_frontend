@@ -19,7 +19,7 @@ angular.module('photoApp', ['ui.router'])
             .state('gallery.detail', {
                 url : '/detail/{image_id:int}',
                 templateUrl : 'templates/gallery_detail.html',
-                controller : ''
+                controller : 'PhotoDetailController'
             });
 
     }])
@@ -29,26 +29,43 @@ angular.module('photoApp', ['ui.router'])
                 x = 0,
                 patt = /jpg|png$/;
             /*
-                1. send an http request to fetch the image data
-                2. iterate through the response and 'filter'(using Regex) images whose urls are broken 
+                1. check whether images are already fetched or not
+                2. send an http request to fetch the image data
+                3. iterate through the response and 'filter'(using Regex) images whose urls are broken 
             */
-            $http.get('https://www.reddit.com/r/pics/.json?jsonp=').then(function(res) {
-                angular.forEach(res.data.data.children, function(item) {
-                    images.push({
-                        url: item.data.url.match(patt) ? item.data.url : null,
-                        title: item.data.title,
-                        author: item.data.author,
-                        id: x++
+            if(!images.length){
+                $http.get('https://www.reddit.com/r/pics/.json?jsonp=').then(function(res) {
+                    angular.forEach(res.data.data.children, function(item) {
+                        images.push({
+                            url: item.data.url.match(patt) ? item.data.url : null,
+                            title: item.data.title,
+                            author: item.data.author,
+                            id: x++
+                        });
                     });
-                });
 
-            }, function(err) {
-                console.log(err);
-            });
+                }, function(err) {
+                    console.log(err);
+                });
+            }
             return images;            
         };
     }])
-    .controller('PhotoAppController', ['$scope', 'orderByFilter', 'fetchImageService', '$state', function($scope, $orderBy, fetchImageService, $state) {
+    .factory('selectedImageService', function(){
+        var selectedImage = {};
+
+        setData = function(img){
+            selectedImage = img;
+        };
+
+        return {
+            getData : function(){
+                return selectedImage;
+            },
+            setData : setData
+        };
+    })
+    .controller('PhotoAppController', ['$scope', 'orderByFilter', 'fetchImageService', '$state', 'selectedImageService', function($scope, $orderBy, fetchImageService, $state, selectedImageService) {
 
         /*
             1. Initialize images array 
@@ -79,4 +96,11 @@ angular.module('photoApp', ['ui.router'])
             $scope.images = $orderBy($scope.images, $scope.sortFactor);
         };
 
+        $scope.setSelectedImage = function(img){
+            selectedImageService.setData(img);
+        };
+
+    }])
+    .controller('PhotoDetailController', ['selectedImageService', '$scope', function(selectedImageService, $scope){
+        $scope.image = selectedImageService.getData();
     }]);
