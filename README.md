@@ -10,8 +10,11 @@ Project structure :
 1. Main Javascript file with controllers : js/app.js
 2. Main CSS file : css/main.css
 3. Templates for views :
+
     a. Base/Home view : index.html
+    
     b. Gallery view : templates/gallery.html
+    
     c. Detailed state view for an Image : templates/gallery-detail.html
 
 Technology used : 
