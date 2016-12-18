@@ -3,7 +3,7 @@ YourStory Front End App Challenge
 
 The above repository contains code for one of the Front End challenges given by YourStory. The project fetches in real-time all the images from a Reddit feed (https://www.reddit.com/r/pics/.json?jsonp=). It gives options such as sort the images according to title , view the image in detail state and download the image.
 
-**Live Project Demo** : simplysanad.com/yourstory_frontend/
+**Live Project Demo** : http://simplysanad.com/yourstory_frontend/
 
 The project is **MIT licensed** .
 
